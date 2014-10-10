@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "string"
 #include "main.h"
+#include <iostream>
+#include <term.h>
+
+using namespace std;
 
 // wenn ECHO definiert ist, werden Ausgaben zum Debuggen erzeugt
-#define ECHO
+
 
 //---- Baumklasse --------------------------------------------------------
 Tree::Tree(){ // Konstruktor
@@ -38,11 +42,11 @@ void Tree::Print(){ // Ausgabe
 	printf("\n\n");
 }
 
-void Tree::Insert( int data){ // Einfuegen eines Datums
+void Tree::Insert( string data){ // Einfuegen eines Datums
 	n_nodes++;
 
 	if( root == NULL){
-		root = new TreeNode( data); // Wurzel anlegen
+		root = new TreeNode( data, &n_nodes); // Wurzel anlegen
 	}else{
 		root->Insert( data); // rekursives Einfuegen
 	}
@@ -57,12 +61,13 @@ TreeNode::TreeNode(){ // Konstruktor
 	left = right = NULL;
 }
 
-TreeNode::TreeNode( int data){ // Konstruktor mit Datum
+TreeNode::TreeNode( string data, int* n_nodes){ // Konstruktor mit Datum
 #ifdef ECHO
-	printf("Konstruktor TreeNode( %d)\n", data);
+	cout << "Konstruktor TreeNode       " + data << endl;
 #endif
 
 	this->data = data; // this wegen des Namenskonfliktes
+    this->tree_n_nodes = n_nodes;
 	left = right = NULL;
 }
 // Implementierung eines Binaerbaumes zum Sortieren von Integers
@@ -72,42 +77,50 @@ TreeNode::~TreeNode(){ // Destruktor
 	if( left  != NULL) delete left;
 	if( right != NULL) delete right;
 
+
 #ifdef ECHO
-	printf("Destruktor TreeNode( %d)\n", data);
+    cout << "Destruktor TreeNode        " + data << endl;
 #endif
 }
 
-// Baumknoten “in-order“ ausgeben
+// Baumknoten ï¿½in-orderï¿½ ausgeben
 void TreeNode::Print(){
     if( left  != NULL) left->Print(); // linker Teilbaum
-    printf(" %5d", data);
+
+    string tabstr;
+    int i;
+    for( i=0; i<this->tree_n_nodes; i++){
+        tabstr = tabstr + "\t";
+    }
+    cout << tabstr << data << endl;
     if( right != NULL) right->Print(); // rechter Teilbaum
 }
 
+
 // Datenelement einsortieren
-void TreeNode::Insert( int data){
+void TreeNode::Insert( string data){
 
     if( this->data > data ){
         /* in linken Teilbaum einfuegen*/
-        if( left == NULL) left = new TreeNode( data);
+        if( left == NULL) left = new TreeNode( data, tree_n_nodes);
 		else left->Insert( data);
     }else{
         /* in rechten Teilbaum einfuegen */
-        if( right == NULL) right = new TreeNode( data);
+        if( right == NULL) right = new TreeNode( data, tree_n_nodes);
 		else right->Insert( data);
     }
 }
 
-//---- Testprogramm für Binaerbaum --------------------------------------
+//---- Testprogramm fï¿½r Binaerbaum --------------------------------------
 void BuildTree(){
     Tree tree; // Konstruktor wird aufgerufen
-    int     i, n = 8;
-    int     a[] = {7,8,3,5,17,2,10,11};
+    int        i, n = 5;
+    string     a[] = {"BA", "BC", "A", "BB", "E"};
 
     /* Elemente a[i] sortiert in 
        den Baum einfuegen */       
     for( i=0; i<n; i++){
-        tree.Insert( a[i]);
+        tree.Insert(a[i]);
     }
 
     /* sortierte Liste ausgeben */

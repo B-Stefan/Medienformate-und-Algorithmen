@@ -1,12 +1,12 @@
 // Implementierung eines Binaerbaumes zum Sortieren von Integers
 // Autor: MHB, (c) 23.10.2013
-
+#include "string.h"
 #ifndef MAIN_H
-  #define MAIN_H /* zur Vermeidung von Mehrfachinklusion */
+#define MAIN_H /* zur Vermeidung von Mehrfachinklusion */
 
 class TreeNode; // Deklaration, da von Tree verwendet
 
-// Hauptklasse für Baum
+// Hauptklasse fï¿½r Baum
 class Tree{
 private:
 	int n_nodes; // Anzahl der Knoten
@@ -16,28 +16,29 @@ public:
 	Tree(); // Konstruktor
 	~Tree(); // Destruktor
 
-	void Insert( int data); // Hinzufuegen eines Datums
+	void Insert(std::string data); // Hinzufuegen eines Datums
 	void Print(); // Ausgeben des sortierten Baumes
 };
 
-// Hilfsklasse für Baumknoten
+// Hilfsklasse fï¿½r Baumknoten
 class TreeNode{ // so koennte das in C++ aussehen
-private: // Zugriff nur für Methoden der Klasse
-    int data;       
+private: // Zugriff nur fï¿½r Methoden der Klasse
+    std::string data;
     TreeNode *left, *right;
+    int* tree_n_nodes;
 
 public:
 	TreeNode(); // Konstruktoren
-	TreeNode( int data);
+	TreeNode(std::string data, int * n_nodes);
 
 	~TreeNode(); // Destruktor
 
-	void Insert( int data); // Hinzufuegen eines Datums
+	void Insert(std::string data); // Hinzufuegen eines Datums
 	void Print(); // Ausgeben des sortierten Baumes
 };
 
 
-/* Testprogramm für Binaerbaum */
+/* Testprogramm fï¿½r Binaerbaum */
 int main();
 
 #endif /* MAIN_H */ 
