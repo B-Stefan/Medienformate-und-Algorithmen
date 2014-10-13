@@ -107,7 +107,7 @@ void TreeNode::Print(std::string tabstr){
 // Datenelement einsortieren
 void TreeNode::Insert( string data){
 
-    if( this->data > data ){
+    if( this->data < data ){
         /* in linken Teilbaum einfuegen*/
         if( left == NULL) left = new TreeNode( data, tree_n_nodes);
 		else left->Insert( data);
