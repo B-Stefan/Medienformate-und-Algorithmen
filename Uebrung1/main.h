@@ -25,7 +25,7 @@ class TreeNode{ // so koennte das in C++ aussehen
 private: // Zugriff nur f�r Methoden der Klasse
     std::string data;
     TreeNode *left, *right;
-    int* tree_n_nodes;
+    int *tree_n_nodes;
 
 public:
 	TreeNode(); // Konstruktoren
@@ -34,7 +34,7 @@ public:
 	~TreeNode(); // Destruktor
 
 	void Insert(std::string data); // Hinzufuegen eines Datums
-	void Print(); // Ausgeben des sortierten Baumes
+	void Print(std::string tabStr); // Ausgeben des sortierten Baumes
 };
 
 

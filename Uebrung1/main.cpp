@@ -37,7 +37,11 @@ void Tree::Print(){ // Ausgabe
 		printf("\nleerer Baum\n");
 	}else{
 		printf("\nAusgabe\nBaum mit %d Knoten:\n", n_nodes);
-		root->Print();
+
+        int i;
+        std::string tabstr;
+        tabstr = "";
+		root->Print(tabstr);
 	}
 	printf("\n\n");
 }
@@ -84,16 +88,19 @@ TreeNode::~TreeNode(){ // Destruktor
 }
 
 // Baumknoten �in-order� ausgeben
-void TreeNode::Print(){
-    if( left  != NULL) left->Print(); // linker Teilbaum
+void TreeNode::Print(std::string tabstr){
 
-    string tabstr;
-    int i;
-    for( i=0; i<this->tree_n_nodes; i++){
-        tabstr = tabstr + "\t";
-    }
+    tabstr = tabstr+"\x20";
+
+    if( left  != NULL) {
+        left->Print(tabstr);
+    } // linker Teilbaum
+
     cout << tabstr << data << endl;
-    if( right != NULL) right->Print(); // rechter Teilbaum
+
+    if( right != NULL) {
+        right->Print(tabstr);
+    } // rechter Teilbaum
 }
 
 
