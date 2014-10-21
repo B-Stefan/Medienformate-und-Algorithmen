@@ -1,11 +1,9 @@
 #include <iostream>
-#include <Foundation/Foundation.h>
 #include "Transform.h"
 #include "math.h"
 #include "array"
 #define _USE_MATH_DEFINES
 
-#include "Test.h"
 
 using namespace std;
 
@@ -23,25 +21,6 @@ int main() {
 
     double dX = 3;
     double dY = 4;
-    /**
-    * Apply
-    */
-    std::array< double, 2 > applyErg = t.Apply(&dX,&dY);
-
-    cout << "Neue Werte für apply" << endl;
-    cout <<  "X:\t" << applyErg[0] << endl;
-    cout <<  "Y:\t" << applyErg[1]  << endl;
-
-    /**
-    * ApplyInverse
-    */
-    std::array< double, 2 > applyInverseErg = t.ApplyInverse(&dX,&dY);
-
-    cout << "Neue Werte für applyInverse" << endl;
-    cout <<  "X:\t" << applyInverseErg[0] << endl;
-    cout <<  "Y:\t" << applyInverseErg[1]  << endl;
-
-
 
     double translateVars[2][2][2] = {
             {
@@ -57,18 +36,28 @@ int main() {
 
     };
 
-    /*double inverseTranslateVars[][2][3] = {
-            {
-                    {M_PI/2,3,4},//translate inverse to (x,y)
-                    {} //expected result from Matlab
-            },
-
-    };*/
-
-    Test test1 =  Test(translateVars,&t);
+    int l = sizeof(translateVars);
+    while (l!= 0){
+        l--;
+        std::array<double ,2> ergApply = t.Apply(&translateVars[l][0][0], &translateVars[l][0][1]);
+        std::array<double ,2> ergApplyInverse = t.ApplyInverse(&translateVars[l][1][0], &translateVars[l][1][1]);
 
 
-    test1.run();
+        /**
+        * Apply Inverse Test
+        */
+        cout << "apply" << endl;
+        if (ergApply[0] !=  translateVars[l][1][1] || ergApply[1] !=   translateVars[l][1][2]
+                ){
+            cout << l << ". Fehler Apply: \t ";
+            cout << "expeceted: (" <<  translateVars[l][1][1] << "," <<  translateVars[l][1][2] <<") \t" ;
+            cout << "actual:(" << ergApply[0] << "," << ergApply[1] <<")" << endl;
+        }
+        else
+            cout << l <<". OK";
+
+        cout << "applyInverse" << endl;
+    }
 
     /***
     *  Test Fall 1
