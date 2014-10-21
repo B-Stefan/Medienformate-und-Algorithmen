@@ -1,8 +1,11 @@
 #include <iostream>
+#include <Foundation/Foundation.h>
 #include "Transform.h"
 #include "math.h"
 #include "array"
 #define _USE_MATH_DEFINES
+
+#include "Test.h"
 
 using namespace std;
 
@@ -38,7 +41,34 @@ int main() {
     cout <<  "X:\t" << applyInverseErg[0] << endl;
     cout <<  "Y:\t" << applyInverseErg[1]  << endl;
 
-    return 0;
+
+
+    double translateVars[2][2][2] = {
+            {
+                    {3,4},//translate to (x,y)
+                    {7,6},//expected result from Matlab for apply
+
+            },
+            {
+                    {3,4},//translate to (x,y)
+                    {7,6},//expected result from Matlab for apply
+
+            }
+
+    };
+
+    /*double inverseTranslateVars[][2][3] = {
+            {
+                    {M_PI/2,3,4},//translate inverse to (x,y)
+                    {} //expected result from Matlab
+            },
+
+    };*/
+
+    Test test1 =  Test(translateVars,&t);
+
+
+    test1.run();
 
     /***
     *  Test Fall 1
@@ -49,6 +79,10 @@ int main() {
     >> t = [3;4];
     >> R*p+t
     */
+
+    return 0;
+
+
 
 
 }
