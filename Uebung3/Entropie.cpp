@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main(int argc, char * argv[]) {
+int main(int argc, char *argv[]) {
     fstream file("Text.txt");
     char currentChar;
     std::vector<char> vec;
@@ -22,22 +22,23 @@ int main(int argc, char * argv[]) {
 
     double zeichen[256] = {};
     unsigned long lengthOfText = vec.size();
-    for (int i : vec){
-        zeichen[i] = zeichen[i]+1;
+    for (int i : vec) {
+        zeichen[i] = zeichen[i] + 1;
     }
     // get character from file and store in array c[]
 
     double h = 0;
-    for (double val : zeichen){
-        if(val != 0 ){
-             double pa = val/lengthOfText;
-             double xa = log2(1.0/pa);
-             h = h + xa * pa;
-             cout << "Debug: Val:" << val << " - xa: " << xa  << endl;
+    for (double val : zeichen) {
+        if (val != 0) {
+            double pa = val / lengthOfText;
+            double xa = log2(1.0 / pa);
+            h = h + xa * pa;
+            cout << "Debug: Val:" << val << " - xa: " << xa << endl;
         }
     }
 
-    cout<< "Entropie für den Text: " << h << endl;
+    cout << "Entropie für den Text: " << h << endl;
+    cout << "Otimale länge des Textes in Byte: " << h * lengthOfText << endl;
 
     return 0;
 }
