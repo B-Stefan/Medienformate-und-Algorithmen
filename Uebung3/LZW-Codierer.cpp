@@ -1,48 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <math.h>
 #include <cmath>
 #include <sstream>
-#include <string>
+#include <map>
 
 using namespace std;
-
-const int LENGTH_OF_MUSTER_ARRAY = 1024;
-
-/**
-* Start Index für die Muster
-*/
-const int START_INDEX_OF_MUSTER_ARRAY = 256;
-
-
-/**
-* Array mit den Mustern
-*/
-std::string muster[LENGTH_OF_MUSTER_ARRAY] = {};
-
-
-
-/**
-* Sucht ab dem startIndex das Muster für den angegebenen searchString
-* gibt -1 zurück wenn kein Muster gefunden wurde
-*/
-int findMuster(std::string*searchString)
-{
-    for (int i = START_INDEX_OF_MUSTER_ARRAY; i <= (sizeof(muster)/sizeof(*muster)); i++){
-        if(muster[i] == (*searchString)){
-            return i;
-        }
-    }
-    return -1;
-}
 
 /**
 * Main funktion
 */
 int main(int argc, char *argv[]) {
-    fstream file("Test.txt");
-    char currentChar;
+
+    fstream file("Test_LZW_Vorlesung.txt");
     std::vector<char> vec;
 
     if (!file.eof() && !file.fail()) {
@@ -55,41 +25,65 @@ int main(int argc, char *argv[]) {
     }
 
 
-    std::ostringstream  result;
+    map<string, int> muster;
+
     int lengthOfText = vec.size();
-    int indexOfLastMuster = START_INDEX_OF_MUSTER_ARRAY;
+    int indexOfNewMuster = 256;
+    cout << "lenghtOfText" << lengthOfText << endl;
 
-    for (int i = 0; i <= lengthOfText; i++) {
-        std:string searchString = string(1,vec.at(i));
-        int n = i;
-        int musterInt = -1;
-        int lastMuster = -1;
-        do {
-            n++;
-            if (n == lengthOfText){
-                musterInt = -1;
+    std::vector<int> output;
+    for (int i = 0; i < (lengthOfText-1); ) {
+
+        char currentChar = vec.at(i);
+        //Muster Suchen
+        bool isMusterFound = false;
+        string currentMuster = string(1,currentChar);
+        do{
+            if (i == (lengthOfText-1)){
+                break;
             }
-            lastMuster = musterInt;
-            musterInt = findMuster(&searchString);
-            searchString = searchString + string(1,vec.at(n));
-        }while (musterInt > 0);
+            char nextChar = vec.at(i+1);
+            currentMuster = currentMuster + string(1,nextChar);
+
+            i++;
+
+            if(muster.count(currentMuster)){
+                //Wenn muster gefunden wurde
+                isMusterFound = true;
+                int foundMusterId = muster[currentMuster];
+            }else {
+                //Hinzufügen des nicht gefundenen musters
+                isMusterFound = false;
+                muster[currentMuster] = indexOfNewMuster++;
+
+            }
+
+            if(!isMusterFound){
+                //Nie ein Muster gefunden
+                string lastFoundMuster = currentMuster.substr(0,currentMuster.size()-1);
+                if(lastFoundMuster.size()==1){
+                    cout << lastFoundMuster << endl;
+                    char charToSaveInVector = lastFoundMuster[0];
+                    output.push_back(charToSaveInVector);
+
+                }
+                else {
+                    int lastFoundMusterId = muster[lastFoundMuster];
+                    cout << lastFoundMuster << " (" << lastFoundMusterId << ")" << endl;
+                    output.push_back(lastFoundMusterId);
+                }
+            }
 
 
-        if (indexOfLastMuster == LENGTH_OF_MUSTER_ARRAY ){
-            indexOfLastMuster = START_INDEX_OF_MUSTER_ARRAY;
-        }
-        muster[indexOfLastMuster+1] = searchString;
-        indexOfLastMuster++;
+        }while(isMusterFound);
 
 
-        if(lastMuster > 0 ){
-            result << lastMuster;
-        }
-        else{
-            result << string(1,vec.at(i));
-        }
+
+
+
     }
 
+    cout << "Ende: " << output.size();
+    return 0;
 
-    cout << result.str();
 }
