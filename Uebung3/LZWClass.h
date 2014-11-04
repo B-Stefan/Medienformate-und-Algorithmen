@@ -1,18 +1,24 @@
-
-#include <map>
+#include "map"
 #include <vector>
 
-class LZWCLass {
+using namespace std;
+class LZWClass {
+const
+    int LAST_ASCI_CODE = 255;
+    int START_INDEX_OF_MUSTER = LAST_ASCI_CODE +1 ;
+    int MAX_INDEX_OF_MUSTER = 1024;
 private:
-    map muster;
+    map<string,int> muster;
     int indexOfNewMuster;
-    int encodeMuster(string searchTerm);
-    string decodeMuster(int searchID);
+    bool encodeMuster(string searchString,  int* outputMusterId);
+    void insertMuster(string newMusterString);
+    bool decodeMuster(int searchID, string *outputString);
+    void setDefaults();
 
 public:
-    LZWCLass ();
-    void decode (vector<int> vec);
-    void encode (vector<char> vec);
-    ~LZWCLass();
+    LZWClass();
+    vector<char> decode(vector<int> *vec);
+    vector<int> encode(vector<char> *vec);
+    ~LZWClass();
 
 };

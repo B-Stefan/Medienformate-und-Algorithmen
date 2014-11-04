@@ -4,7 +4,11 @@ project(Uebung3)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-LZW-Codierer.cpp
+main.cpp
+LZWClass.cpp
+LZWClass.h
+Entropie.cpp
+Entropie.h
 Text.txt
 Test.txt)
 add_executable(Uebung3 ${SOURCE_FILES})
