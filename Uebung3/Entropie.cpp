@@ -1,28 +1,40 @@
-#include <iostream>
-#include <fstream>
 #include <vector>
 #include <math.h>
-#include <cmath>
+#include "Entropie.h"
+#include "iostream"
 
-using namespace std;
+using  namespace std;
+/**
+* Konstruktor
+*/
+Entropie::Entropie(vector<char>* vec) {
+    this->vec = vec;
 
-int main(int argc, char *argv[]) {
-    fstream file("Text.txt");
-    char currentChar;
-    std::vector<char> vec;
-
-    if (!file.eof() && !file.fail()) {
-        file.seekg(0, std::ios_base::end);
-        std::streampos fileSize = file.tellg();
-        vec.resize(fileSize);
-        file.seekg(0, std::ios_base::beg);
-        file.read(&vec[0], fileSize);
-    }
+};
+/**
+* Dekonstruktor
+*/
 
 
+Entropie::~Entropie() {
+
+}
+
+
+/**
+* Methoden public
+*/
+
+double Entropie::getBestFileSize() {
+
+    double lengthOfText = (*this->vec).size();
+    return this->getEntropie() * lengthOfText;
+}
+
+double Entropie::getEntropie() {
     double zeichen[256] = {};
-    unsigned long lengthOfText = vec.size();
-    for (int i : vec) {
+    unsigned long lengthOfText = (*this->vec).size();
+    for (int i : (*this->vec)) {
         zeichen[i] = zeichen[i] + 1;
     }
     // get character from file and store in array c[]
@@ -33,12 +45,9 @@ int main(int argc, char *argv[]) {
             double pa = val / lengthOfText;
             double xa = log2(1.0 / pa);
             h = h + xa * pa;
-            cout << "Debug: Val:" << val << " - xa: " << xa << endl;
+            //cout << "Debug: Val:" << val << " - xa: " << xa << endl;
         }
     }
 
-    cout << "Entropie für den Text: " << h << endl;
-    cout << "Otimale länge des Textes in Byte: " << h * lengthOfText << endl;
-
-    return 0;
+    return h;
 }
