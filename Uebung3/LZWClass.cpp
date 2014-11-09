@@ -97,6 +97,7 @@ vector<char> LZWClass::decode(vector<int> *vec) {
         //Neues Muster hinzufügen
         int nextInt = (*vec).at(i+1);
         if (nextInt <= LZWClass::LAST_ASCI_CODE){
+            //Wenn normales ASCI Zeichen im nextInt
             char nextChar = (char) nextInt;
             newMuster = newMuster+ string(1,nextChar);
         }else {
