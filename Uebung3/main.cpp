@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
     }
 
 
-
     Entropie entr(&vec);
     double entrophieOfText = entr.getEntropie();
     cout << " Entropie für den Text: "<<entrophieOfText << endl;
@@ -36,13 +35,15 @@ int main(int argc, char *argv[]) {
     vector<int> out = lzw.encode(&vec);
 
 
+    cout << "Encodieren des Textes"<<endl;
     for(int val : out){
-        cout << val << endl;
+        cout <<"encode: " << val << endl;
     }
 
     vector<char> outChar = lzw.decode(&out);
 
 
+    cout << "Decodeieren des Textes" << endl;
     int i = 0;
     for(char val : outChar){
         char org = vec.at(i);
