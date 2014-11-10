@@ -25,10 +25,13 @@ Entropie::~Entropie() {
 * Methoden public
 */
 
+/**
+* Gibt die optimale länge in byte zurück
+*/
 double Entropie::getBestFileSize() {
 
     double lengthOfText = (*this->vec).size();
-    return this->getEntropie() * lengthOfText;
+    return this->getEntropie()* lengthOfText/8;
 }
 
 double Entropie::getEntropie() {
