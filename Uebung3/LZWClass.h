@@ -6,7 +6,7 @@ class LZWClass {
 const
     int LAST_ASCI_CODE = 255;
     int START_INDEX_OF_MUSTER = LAST_ASCI_CODE +1 ;
-    int MAX_INDEX_OF_MUSTER = 1024;
+    int MAX_INDEX_OF_MUSTER = 1023;
 private:
     map<string,int> muster;
     int indexOfNewMuster;
