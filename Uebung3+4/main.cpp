@@ -149,8 +149,8 @@ void executeFile(string fileName, bool debug){
 int main(int argc, char *argv[]) {
 
 
-    //executeFile("Test_LZW_Vorlesung.txt", true);
-    executeFile("Test.txt", false);
+    executeFile("Text_Short_LZWLW78.txt", true);
+    executeFile("Test_Long_Lorem.txt", false);
     //executeFile("lena.ppm", false);
 
     return 0;
