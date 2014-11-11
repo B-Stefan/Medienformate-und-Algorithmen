@@ -6,7 +6,7 @@ const
     int LAST_ASCI_CODE = 255;
 
 private:
-    vector<char>* vec;
+    vector<unsigned char>* vec;
 
 public:
     Entropie(vector<char> *vec);

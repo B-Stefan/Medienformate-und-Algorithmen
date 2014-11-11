@@ -7,7 +7,7 @@ using  namespace std;
 /**
 * Konstruktor
 */
-Entropie::Entropie(vector<char>* vec) {
+Entropie::Entropie(vector<unsigned char>* vec) {
     this->vec = vec;
 
 };
