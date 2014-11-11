@@ -52,10 +52,10 @@ void executeFile(string fileName, bool debug) {
 
 
     if (!isBmp) {
-/*        Entropie entr(&vec);
+        Entropie entr(&vec);
         cout << "Entropie für die Datei: \t "<< entr.getEntropie() << "  Bits / Zeichen" << endl;
         cout << "Otimale länge der Datei :\t " << entr.getBestFileSize()  << " Bytes"<<endl;
-        cout << endl << endl;*/
+        cout << endl << endl;
     }
 
     cout << "====LZW===" << endl;
@@ -138,7 +138,7 @@ void executeFile(string fileName, bool debug) {
     b.saveBinaryFile(&outInts, fileNameBinary);
 
     cout << "Binäre Datei load: \t" << fileNameBinary << endl;
-    vector<int> binaryResult = b.readBinaryFile(fileNameBinary);
+    vector<unsigned int> binaryResult = b.readBinaryFile(fileNameBinary);
 
     cout << "Binäre load: \t" << binaryResult.size() << " Zeichen"<< endl;
 
@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
 
 
     executeFile("Text_Short_LZWLW78.txt", true);
-    //executeFile("Test_Long_Lorem.txt", false);
+    executeFile("Test_Long_Lorem.txt", false);
     executeFile("Test_lena.ppm", false);
 
     return 0;

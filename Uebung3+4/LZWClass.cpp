@@ -28,7 +28,7 @@ Methdoen
 void LZWClass::setDefaults() {
     this->indexOfNewMuster = LZWClass::START_INDEX_OF_MUSTER;
 }
-bool LZWClass::decodeMuster(int searchID, vector<int>* output) {
+bool LZWClass::decodeMuster(int searchID, vector<unsigned int>* output) {
 
     if(this->muster.count(searchID)){
         *output = this->muster[searchID];
@@ -37,9 +37,9 @@ bool LZWClass::decodeMuster(int searchID, vector<int>* output) {
     return false;
 }
 
-bool LZWClass::encodeMuster(vector<int> searchMuster, int* outputMusterId) {
+bool LZWClass::encodeMuster(vector<unsigned int> searchMuster, int* outputMusterId) {
 
-    for (std::map<int,vector<int>>::iterator it=this->muster.begin(); it!=this->muster.end(); ++it){
+    for (std::map<int,vector<unsigned int>>::iterator it=this->muster.begin(); it!=this->muster.end(); ++it){
         if (it->second  == searchMuster){
             *outputMusterId= it->first;
             return true;
@@ -49,12 +49,12 @@ bool LZWClass::encodeMuster(vector<int> searchMuster, int* outputMusterId) {
 }
 
 
-void LZWClass::insertMuster(vector<int> newMuster) {
+void LZWClass::insertMuster(vector<unsigned int> newMuster) {
     if(this->indexOfNewMuster == LZWClass::MAX_INDEX_OF_MUSTER){
         this->indexOfNewMuster = this->START_INDEX_OF_MUSTER;
     }
     //Wenn für die muster ID schon ein Key exisitert dann diesen raus löschen, nur wnen überlauf
-    vector<int> key;
+    vector<unsigned int> key;
     if(this->muster.count(this->indexOfNewMuster)){
         this->muster.erase(this->indexOfNewMuster);
     }
@@ -69,11 +69,11 @@ vector<char> LZWClass::decode(vector<unsigned int> *vec) {
     vector<char> output;
     int i = 0;
 
-    vector<int> newMuster;
+    vector<unsigned int> newMuster;
     for(int val : *vec){
         if(val <= LZWClass::LAST_ASCI_CODE){
             //Wenn normales ASCI Zeichen
-            int asciZeichen = val;
+            unsigned int asciZeichen = val;
             newMuster.clear();
             newMuster.push_back(asciZeichen);
             output.push_back(asciZeichen);
@@ -84,7 +84,7 @@ vector<char> LZWClass::decode(vector<unsigned int> *vec) {
             if (!isMusterFound){
                 //cout << "ERROR: Muster für ID" << val << " wurde nicht gefunden. Dies sollte nicht vorkommen" << endl;
             }
-            for(char val : newMuster){
+            for( int val : newMuster){
                 output.push_back(val);
             }
         }
@@ -96,10 +96,10 @@ vector<char> LZWClass::decode(vector<unsigned int> *vec) {
         int nextInt = (*vec).at(i+1);
         if (nextInt <= LZWClass::LAST_ASCI_CODE){
             //Wenn normales ASCI Zeichen im nextInt
-            char nextChar = (char) nextInt;
+            unsigned int nextChar =  nextInt;
             newMuster.push_back(nextChar);
         }else {
-            vector<int> nextIntMuster;
+            vector<unsigned int> nextIntMuster;
             this->decodeMuster(nextInt,&nextIntMuster);
             newMuster.push_back(nextIntMuster.at(0));
         }
@@ -120,7 +120,7 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
         int currentChar = (*vec).at(i);
         //Muster Suchen
         bool isMusterFound = false;
-        vector<int> currentMuster;
+        vector<unsigned int> currentMuster;
         currentMuster.push_back(currentChar);
         //cout << currentChar << "("<<(char) currentChar << ")" << endl;
         do{
@@ -144,7 +144,7 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
                 //Kein Muster mehr gefunden
                 this->insertMuster(currentMuster);
 
-                vector<int> lastFoundMuster;
+                vector<unsigned int> lastFoundMuster;
                 copy ( currentMuster.begin(), currentMuster.end() - (currentMuster.size() > 1 ? 2:1) , std::back_inserter(lastFoundMuster) );
 
                 //cout << "LastFoundMuster";

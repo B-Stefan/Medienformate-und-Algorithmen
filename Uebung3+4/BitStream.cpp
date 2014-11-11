@@ -65,7 +65,7 @@ void BitStream::saveBinaryFile(vector<unsigned int> *vec, string fileName) {
 
 }
 
-vector<int> BitStream::readBinaryFile(string fileName) {
+vector<unsigned int> BitStream::readBinaryFile(string fileName) {
     fstream file(fileName,  ios::in|ios::binary);
 
     //File einlsen
@@ -101,7 +101,7 @@ vector<int> BitStream::readBinaryFile(string fileName) {
     else {
         cout << "Fehler beim einlesen der Datei " << fileName << endl;
     }
-    vector<int> output;
+    vector<unsigned int> output;
     return output;
 
 }
@@ -122,8 +122,8 @@ vector<bool> BitStream::getBinary(vector<unsigned int> *vec) {
     return output;
 }
 
-vector<int> BitStream::getVector(string *str) {
-    vector<int> output;
+vector<unsigned int> BitStream::getVector(string *str) {
+    vector<unsigned int> output;
     for(int i = 0; i<(*str).size();i+=10){
         string bytes = (*str).substr(i,10);
         bitset<10> currentBitset(bytes);
