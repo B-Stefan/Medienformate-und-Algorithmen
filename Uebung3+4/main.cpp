@@ -94,9 +94,9 @@ void executeFile(string fileName, bool debug) {
         if (i < outChar.size()) {
             if(debug){
                 char decodeErg = outChar.at(i);
-                cout << "\t" << i << ". " << "Decode:" << decodeErg << "(" << (unsigned int) decodeErg << ")=Original:" << val;
+                cout << "\t" << i << ". " << "Decode:" << decodeErg << "(" << (unsigned int) decodeErg << ")=Original:" << val <<endl;
                 if (decodeErg != val) {
-                    cout << "FEHLER!!!";
+                    cout << "\t\tFEHLER!!!";
                 }
             }
         } else{
