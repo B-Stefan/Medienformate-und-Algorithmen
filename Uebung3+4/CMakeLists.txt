@@ -9,6 +9,9 @@ LZWClass.cpp
 LZWClass.h
 Entropie.cpp
 Entropie.h
+Sruct_bit.h
+BitStream.cpp
+BitStream.h
 Text.txt
 Test.txt)
 add_executable(Uebung3 ${SOURCE_FILES})

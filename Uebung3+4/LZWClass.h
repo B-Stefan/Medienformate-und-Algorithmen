@@ -8,11 +8,11 @@ const
     int START_INDEX_OF_MUSTER = LAST_ASCI_CODE +1 ;
     int MAX_INDEX_OF_MUSTER = 1023;
 private:
-    map<string,int> muster;
+    map<int,vector<int>> muster;
     int indexOfNewMuster;
-    bool encodeMuster(string searchString,  int* outputMusterId);
-    void insertMuster(string newMusterString);
-    bool decodeMuster(int searchID, string *outputString);
+    bool encodeMuster(vector<int> searchString,  int* outputMusterId);
+    void insertMuster(vector<int> newMusterString);
+    bool decodeMuster(int searchID, vector<int> *outputVector);
     void setDefaults();
 
 public:
