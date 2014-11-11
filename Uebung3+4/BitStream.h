@@ -9,9 +9,9 @@ private:
 
 public:
     BitStream();
-    void saveBinaryFile(vector<int>* vec,string fileName);
+    void saveBinaryFile(vector<unsigned int>* vec,string fileName);
     vector<int> readBinaryFile(string fileName);
-    vector<bool> getBinary(vector<int>* vec);
+    vector<bool> getBinary(vector<unsigned int>* vec);
     vector<int> getVector(string* bitset);
     ~BitStream();
 };

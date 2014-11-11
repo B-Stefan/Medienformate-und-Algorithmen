@@ -64,7 +64,7 @@ void LZWClass::insertMuster(vector<int> newMuster) {
 
 
 /*Public*/
-vector<char> LZWClass::decode(vector<int> *vec) {
+vector<char> LZWClass::decode(vector<unsigned int> *vec) {
     this->setDefaults();
     vector<char> output;
     int i = 0;
@@ -111,10 +111,10 @@ vector<char> LZWClass::decode(vector<int> *vec) {
 }
 
 
-vector<int> LZWClass::encode(vector<char> *vec) {
+vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
     this->setDefaults();
     unsigned long lengthOfText = (*vec).size();
-    vector<int> output;
+    vector<unsigned int> output;
     for (unsigned long i = 0; i < (lengthOfText); ) {
 
         int currentChar = (*vec).at(i);

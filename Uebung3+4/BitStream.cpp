@@ -3,6 +3,8 @@
 #include "BitStream.h"
 #include "iostream"
 #include "Sruct_bit.h"
+#include "math.h"
+
 
 using  namespace std;
 /**
@@ -25,30 +27,33 @@ BitStream::~BitStream() {
 * Methoden public
 */
 
-void BitStream::saveBinaryFile(vector<int> *vec, string fileName) {
+void BitStream::saveBinaryFile(vector<unsigned int> *vec, string fileName) {
     ofstream binaryFile;
     vector<bool> binaryBool= this->getBinary(vec);
     //Save file
     binaryFile.open(fileName, ios::out|ios::binary);
 
-    char charArray [binaryBool.size()/8];
+    int byte = ceil((double)binaryBool.size()/(double)8);
+    char charArray [byte];
     int i= 0;
     for(int f = 0; f< (sizeof(charArray)); f++){
         Sruct_bit bit;
         bit = *(Sruct_bit*)(&charArray[f]);
-        bit.b1 = binaryBool.at(i++);
-        bit.b2 = binaryBool.at(i++);
-        bit.b3 = binaryBool.at(i++);
-        bit.b4 = binaryBool.at(i++);
-        bit.b5 = binaryBool.at(i++);
-        bit.b6 = binaryBool.at(i++);
-        bit.b7 = binaryBool.at(i++);
-        bit.b8 = binaryBool.at(i++);
+
+        bit.b1 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b2 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b3 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b4 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b5 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b6 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b7 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+        bit.b8 = i < binaryBool.size() ?  binaryBool.at(i++):false;
+
         charArray[f]  = *(char*)(&bit);
 
     }
 
-    binaryFile.write((char*)&charArray, i/8);
+    binaryFile.write((char*)&charArray, byte);
     binaryFile.close();
 
 
@@ -80,6 +85,7 @@ vector<int> BitStream::readBinaryFile(string fileName) {
             resultStr +=bit.b8? "1":"0";
 
         }
+
         return  this->getVector(&resultStr);
 
     }
@@ -91,7 +97,7 @@ vector<int> BitStream::readBinaryFile(string fileName) {
 
 }
 
-vector<bool> BitStream::getBinary(vector<int> *vec) {
+vector<bool> BitStream::getBinary(vector<unsigned int> *vec) {
     vector<bool> output;
     for (int val: *vec){
         string valStr;
@@ -118,3 +124,5 @@ vector<int> BitStream::getVector(string *str) {
     return output;
 }
 
+
+#pragma clang diagnostic pop

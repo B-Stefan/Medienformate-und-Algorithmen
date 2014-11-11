@@ -17,8 +17,8 @@ private:
 
 public:
     LZWClass();
-    vector<char> decode(vector<int> *vec);
-    vector<int> encode(vector<char> *vec);
+    vector<char> decode(vector<unsigned int> *vec);
+    vector<unsigned int> encode(vector<unsigned char> *vec);
     ~LZWClass();
 
 };
