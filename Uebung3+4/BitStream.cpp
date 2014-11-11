@@ -40,6 +40,11 @@ void BitStream::saveBinaryFile(vector<unsigned int> *vec, string fileName) {
         Sruct_bit bit;
         bit = *(Sruct_bit*)(&charArray[f]);
 
+        /*
+        * i < binaryBool.size() ? ist wegen dem letzten byte bzw. char das eventuell über die binaryBool.size hinaus ragt.
+        * Dies tritt auf, wenn binaryBool.size() / 8 keinen graden Wert ergibt. Dann wird einfach aufgerundet, sodass alle Informationen gespeichert werden und die letzten bits unbenutzt gelassen werden.
+        * */
+
         bit.b1 = i < binaryBool.size() ?  binaryBool.at(i++):false;
         bit.b2 = i < binaryBool.size() ?  binaryBool.at(i++):false;
         bit.b3 = i < binaryBool.size() ?  binaryBool.at(i++):false;
@@ -49,6 +54,7 @@ void BitStream::saveBinaryFile(vector<unsigned int> *vec, string fileName) {
         bit.b7 = i < binaryBool.size() ?  binaryBool.at(i++):false;
         bit.b8 = i < binaryBool.size() ?  binaryBool.at(i++):false;
 
+        //Back cast
         charArray[f]  = *(char*)(&bit);
 
     }
@@ -72,9 +78,12 @@ vector<int> BitStream::readBinaryFile(string fileName) {
         file.close();
         string resultStr = "";
         for(char currentChar : memblock){
+
+            //Cast into sruct
             Sruct_bit bit;
             bit = *(Sruct_bit*)(&currentChar);
 
+            //Schreiben in string
             resultStr +=bit.b1? "1":"0";
             resultStr +=bit.b2? "1":"0";
             resultStr +=bit.b3? "1":"0";
