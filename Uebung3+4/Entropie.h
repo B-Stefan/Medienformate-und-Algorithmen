@@ -9,7 +9,7 @@ private:
     vector<unsigned char>* vec;
 
 public:
-    Entropie(vector<char> *vec);
+    Entropie(vector<unsigned char> *vec);
     double getEntropie();
     double getBestFileSize();
     ~Entropie();
