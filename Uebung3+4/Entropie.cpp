@@ -37,11 +37,13 @@ double Entropie::getBestFileSize() {
 double Entropie::getEntropie() {
     double zeichen[256] = {};
     unsigned long lengthOfText = (*this->vec).size();
+    // Zähler für jedes ASCI Zeichen, sodass pro Zeichen die Anzahl des vorkommens im Text hinterlegt wird.
     for (int i : (*this->vec)) {
         zeichen[i] = zeichen[i] + 1;
     }
-    // get character from file and store in array c[]
 
+
+    //Berechnen der Entropie nach Formel in der VL
     double h = 0;
     for (double val : zeichen) {
         if (val != 0) {
