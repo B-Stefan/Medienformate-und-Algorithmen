@@ -70,40 +70,42 @@ vector<char> LZWClass::decode(vector<unsigned int> *vec) {
     int i = 0;
 
     vector<unsigned int> newMuster;
-    for(int val : *vec){
+    for(unsigned int val : *vec){
         if(val <= LZWClass::LAST_ASCI_CODE){
             //Wenn normales ASCI Zeichen
-            unsigned int asciZeichen = val;
+
             newMuster.clear();
-            newMuster.push_back(asciZeichen);
-            output.push_back(asciZeichen);
+            newMuster.push_back(val);
+            output.push_back((char)val);
         }
         else {
             //Wenn muster
             bool isMusterFound = this->decodeMuster(val, &newMuster);
             if (!isMusterFound){
-                //cout << "ERROR: Muster für ID" << val << " wurde nicht gefunden. Dies sollte nicht vorkommen" << endl;
+                cout << "ERROR: Muster für ID" << val << " wurde nicht gefunden. Dies sollte nicht vorkommen" << endl;
             }
-            for( int val : newMuster){
-                output.push_back(val);
+            for(unsigned int valOfMuster : newMuster){
+                output.push_back((char)valOfMuster);
             }
         }
 
+        //Wenn man am letzten Zeichen des Vectors angekommen ist. Schleife verlassen
         if((*vec).size()-1 == i){
             break;
         }
+
+
         //Neues Muster hinzufügen
-        int nextInt = (*vec).at(i+1);
+        unsigned int nextInt = (*vec).at(i+1);
         if (nextInt <= LZWClass::LAST_ASCI_CODE){
             //Wenn normales ASCI Zeichen im nextInt
-            unsigned int nextChar =  nextInt;
-            newMuster.push_back(nextChar);
+            newMuster.push_back(nextInt);
         }else {
             vector<unsigned int> nextIntMuster;
             this->decodeMuster(nextInt,&nextIntMuster);
             newMuster.push_back(nextIntMuster.at(0));
         }
-        ////cout << "NeuesMuster: " << newMuster  << "(" << this->indexOfNewMuster << ")"<< endl;
+
         this->insertMuster(newMuster);
         i++;
     }
@@ -115,6 +117,8 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
     this->setDefaults();
     unsigned long lengthOfText = (*vec).size();
     vector<unsigned int> output;
+
+    //Für jedes zeichen im Text
     for (unsigned long i = 0; i < (lengthOfText); ) {
 
         int currentChar = (*vec).at(i);
@@ -122,7 +126,9 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
         bool isMusterFound = false;
         vector<unsigned int> currentMuster;
         currentMuster.push_back(currentChar);
-        //cout << currentChar << "("<<(char) currentChar << ")" << endl;
+
+
+        // Suche das Muster ausgehend vom aktuellen Zeichen
         do{
 
             if (i == lengthOfText){
@@ -134,7 +140,7 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
                 currentMuster.push_back(nextChar);
             }
 
-
+            //Erhöhen von i
             i++;
 
             int lastFoundMusterId;
@@ -144,26 +150,20 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
                 //Kein Muster mehr gefunden
                 this->insertMuster(currentMuster);
 
+                //Wenn kein Muster mehr gefunden wurde das zuletzt gefunden muster in lastFoundMuster kopieren
                 vector<unsigned int> lastFoundMuster;
                 copy ( currentMuster.begin(), currentMuster.end() - (currentMuster.size() > 1 ? 2:1) , std::back_inserter(lastFoundMuster) );
 
-                //cout << "LastFoundMuster";
-                for(int iLastMuster: lastFoundMuster){
-                    //cout << iLastMuster << endl;
-                }
-                //cout << endl;
 
                 //Zuletzt gefundendes Muster
                 if(lastFoundMuster.size()==0){
                     //Wenn es kein Muster war sondern nur das Zeichen
-                    int charToSaveInVector = currentMuster.at(0);
-                    //cout << "Normaler ASCI Code Ausgabe:" << (char)charToSaveInVector <<endl;
+                    unsigned int charToSaveInVector = currentMuster.at(0);
                     output.push_back(charToSaveInVector);
                 }
                 else {
                     //Wenn es ein Muster war
-                    output.push_back(lastFoundMusterId);
-                    //cout << "Muster gefunden und hinzugefügt Ausgabe: " << lastFoundMusterId <<endl;
+                    output.push_back((unsigned int)lastFoundMusterId);
                     lastFoundMusterId = 0;
                 }
             }
