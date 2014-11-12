@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include "vector"
 
 #include "LZWClass.h"
 #include "Entropie.h"
@@ -60,6 +61,8 @@ void executeFile(string fileName, bool debug) {
 
     cout << "====LZW===" << endl;
     LZWClass lzw;
+
+    //Codieren des Textes
     vector<unsigned int> outInts = lzw.encode(&vec);
 
     cout << "Original-Länge: \t" << vec.size() << " Zeichen (" << vec.size() << " Bytes)" << endl;
@@ -82,6 +85,7 @@ void executeFile(string fileName, bool debug) {
 
     }
 
+    //Decodieren des Textes
     vector<char> outChar = lzw.decode(&outInts);
 
 
@@ -100,7 +104,7 @@ void executeFile(string fileName, bool debug) {
                 }
             }
         } else{
-            cout << "\t" << i << ". Fehler: " << " wurde nicht in der ausgabe der LZW decodierung gefunden es fehlte: " << (unsigned int)val << "(" << val << ")" << endl;
+            cout << "\t" << i << ". Fehler:" << "An dem Char mit dem Index: "<< i << " wurde kein Ergebniss der LZW-Codierung gefunden. Es fehlte das Zeichen: " << (unsigned int)val << "(" << val << ")" << endl;
         }
 
         i++;
@@ -108,13 +112,11 @@ void executeFile(string fileName, bool debug) {
 
 
 
-
-
-
     double compression = 1-(double)outInts.size()/(double)vec.size();
 
     cout << "Compression: \t\t" << compression*100<< "%" << endl;
 
+    //Binär abspeichern
     BitStream b;
     vector<bool> binaryBool= b.getBinary(&outInts);
 
@@ -129,7 +131,6 @@ void executeFile(string fileName, bool debug) {
         cout <<endl;
     }
 
-
     //Binär Datei speichern
     string fileNameBinary = fileName+".bin";
     cout << "Binäre save: \t" << outInts.size() << " Zeichen"<< endl;
@@ -142,6 +143,7 @@ void executeFile(string fileName, bool debug) {
 
     cout << "Binäre load: \t" << binaryResult.size() << " Zeichen"<< endl;
 
+    //Vergleichen der geladenen Binär-Datei mit den Ausgangswerten der LZW-Codierung
     i = 0;
     for (int val: binaryResult){
         if(i<outInts.size()){
