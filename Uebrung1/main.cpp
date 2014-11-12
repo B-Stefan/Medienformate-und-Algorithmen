@@ -103,7 +103,6 @@ void TreeNode::Print(std::string tabstr){
     } // rechter Teilbaum
 }
 
-
 // Datenelement einsortieren
 void TreeNode::Insert( string data){
 
@@ -117,6 +116,7 @@ void TreeNode::Insert( string data){
 		else right->Insert( data);
     }
 }
+
 
 //---- Testprogramm f�r Binaerbaum --------------------------------------
 void BuildTree(){

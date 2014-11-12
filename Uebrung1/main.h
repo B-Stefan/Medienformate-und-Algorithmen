@@ -33,7 +33,7 @@ public:
 
 	~TreeNode(); // Destruktor
 
-	void Insert(std::string data); // Hinzufuegen eines Datums
+	void Insert(std::string data ); // Hinzufuegen eines Datums
 	void Print(std::string tabStr); // Ausgeben des sortierten Baumes
 };
 
