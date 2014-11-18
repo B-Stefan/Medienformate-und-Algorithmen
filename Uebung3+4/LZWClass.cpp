@@ -131,10 +131,8 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
         // Suche das Muster ausgehend vom aktuellen Zeichen
         do{
 
-            if (i == lengthOfText){
-                break;
-            }
-            else if (i!=lengthOfText-1) {
+
+            if (i!=lengthOfText-1) {
                 //Wenn es noch ein nächstes Zeichen gibt
                 int nextChar = (*vec).at(i + 1);
                 currentMuster.push_back(nextChar);
@@ -146,7 +144,7 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
             int lastFoundMusterId;
             isMusterFound = this->encodeMuster(currentMuster, &lastFoundMusterId);
 
-            if(!isMusterFound){
+            if(!isMusterFound || i == lengthOfText){
                 //Kein Muster mehr gefunden
                 this->insertMuster(currentMuster);
 
@@ -166,6 +164,9 @@ vector<unsigned int> LZWClass::encode(vector<unsigned char> *vec) {
                     output.push_back((unsigned int)lastFoundMusterId);
                     lastFoundMusterId = 0;
                 }
+            }
+            if (i == lengthOfText){
+                break;
             }
 
         }while(isMusterFound);
