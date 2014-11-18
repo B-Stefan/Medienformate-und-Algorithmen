@@ -170,9 +170,11 @@ void executeFile(string fileName, bool debug) {
 int main(int argc, char *argv[]) {
 
 
+    executeFile("Text_Binary.txt", true);
     executeFile("Text_Short_LZWLW78.txt", true);
     executeFile("Test_Long_Lorem.txt", false);
     executeFile("Test_lena.ppm", false);
+
 
     return 0;
 }
